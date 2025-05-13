@@ -313,3 +313,70 @@ body {
       max-height: 350px;
   }
 }
+/* ملف style.css */
+
+.grades-list-svg {
+    padding: 20px;
+    background: linear-gradient(to bottom right, #f9fafb, #e5e7eb);
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    max-width: 600px;
+    margin: 20px auto;
+    overflow-x: auto;
+}
+
+.grades-list-svg svg {
+    width: 100%;
+    height: auto;
+}
+
+/* تعديل شكل النص داخل الدائرة */
+.grades-list-svg text {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: all 0.3s ease-in-out;
+}
+
+/* تأثيرات عند تمرير الماوس */
+.grades-list-svg path:hover {
+    opacity: 0.8;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    cursor: pointer;
+}
+
+/* لون القطع */
+.grades-list-svg .red-slice {
+    fill: #ef4444; /* أحمر ناعم */
+}
+
+.grades-list-svg .blue-slice {
+    fill: #3b82f6; /* أزرق حديث */
+}
+
+/* تسمية النوع بجانب الدائرة */
+.grades-list-svg .type-label {
+    fill: #374151;
+    font-size: 16px;
+    font-weight: 600;
+}
+.level-svg-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+  background-color: #f5efff;
+}
+
+svg {
+  overflow: visible;
+}
+
+.level-circle-text {
+  font-size: 14px;
+  fill: #555;
+}
+
+.level-number-text {
+  font-size: 28px;
+  font-weight: bold;
+  fill: #1f2937;
+}

@@ -52,90 +52,149 @@ console.log(user);
     document.body.innerHTML = '';
     const container = div('app-container');
     const content=div('content');
-   content.append(displayInfoUser(user), displayGrades(user),displayProjectsXP(user));
+   content.append(displayInfoUser(user), displayGrades(user),displayLevelWithSVG(user));
     container.append(showNavbar(user),content);
     document.body.append(container);
 
     
 }
 
-function displayProjectsXP(user) {
-   const div1=div('projectsxp');
-   const totalxp=user.data.user[0].transactions.reduce((total, transaction) => total + transaction.amount, 0);
-   const svgNs = "http://www.w3.org/2000/svg";
-   const svg = document.createElementNS(svgNs, 'svg');
-   svg.setAttribute('width', '100%');
-   svg.setAttribute('height', '100%');
-   const radius = 30;
-   const y = radius + 10;
-   const circle = document.createElementNS(svgNs, 'circle');
-   circle.setAttribute('cx', radius + 10);
-   circle.setAttribute('cy', y);
-   circle.setAttribute('r', radius);
-   circle.setAttribute('stroke', 'black');
-   circle.setAttribute('stroke-width', '2');
-   circle.setAttribute('fill', '#fefce8');
-   svg.appendChild(circle);
-   const gradeText = document.createElementNS(svgNs, 'text');
-   gradeText.setAttribute('x', radius + 10);
-   gradeText.setAttribute('y', y + radius + 10);
-   gradeText.setAttribute('text-anchor', 'middle');
-   gradeText.setAttribute('dominant-baseline', 'middle');
-   gradeText.setAttribute('font-size', '20px');
-   gradeText.setAttribute('fill', 'black');
-   gradeText.textContent = totalxp;
-   svg.appendChild(gradeText);
-   div1.append(svg);
-   return div1;
+function displayLevelWithSVG(user) {
+  const level = user.data.level || 25;
 
+  const container = div("levelContainer");
+  const svgNS = "http://www.w3.org/2000/svg";
+
+  const svg = document.createElementNS(svgNS, "svg");
+  svg.setAttribute("width", "160");
+  svg.setAttribute("height", "160");
+
+  const centerX = 80;
+  const centerY = 80;
+  const radius = 60;
+
+  // خلفية الدائرة
+  const circle = document.createElementNS(svgNS, "circle");
+  circle.setAttribute("cx", centerX);
+  circle.setAttribute("cy", centerY);
+  circle.setAttribute("r", radius);
+  circle.setAttribute("fill", "#fefce8");
+  circle.setAttribute("stroke", "#ddd");
+  circle.setAttribute("stroke-width", "2");
+  svg.appendChild(circle);
+
+  // النقاط حول الدائرة
+  const dotCount = 40;
+  for (let i = 0; i < dotCount; i++) {
+    const angle = (2 * Math.PI * i) / dotCount;
+    const dotX = centerX + Math.cos(angle) * (radius + 10);
+    const dotY = centerY + Math.sin(angle) * (radius + 10);
+
+    const dot = document.createElementNS(svgNS, "circle");
+    dot.setAttribute("cx", dotX);
+    dot.setAttribute("cy", dotY);
+    dot.setAttribute("r", 2);
+    dot.setAttribute("fill", "#a855f7");
+    svg.appendChild(dot);
+  }
+
+  // نص "Level"
+  const levelText = document.createElementNS(svgNS, "text");
+  levelText.setAttribute("x", centerX);
+  levelText.setAttribute("y", centerY - 10);
+  levelText.setAttribute("text-anchor", "middle");
+  levelText.setAttribute("class", "level-circle-text");
+  levelText.textContent = "Level";
+  svg.appendChild(levelText);
+
+  // رقم المستوى
+  const levelNumber = document.createElementNS(svgNS, "text");
+  levelNumber.setAttribute("x", centerX);
+  levelNumber.setAttribute("y", centerY + 20);
+  levelNumber.setAttribute("text-anchor", "middle");
+  levelNumber.setAttribute("class", "level-number-text");
+  levelNumber.textContent = level;
+  svg.appendChild(levelNumber);
+
+  container.appendChild(svg);
+  return container
 }
+
+
 function displayGrades(user) {
     const container = ce('div', 'grades-list-svg');
-   
-    const svgNs = "http://www.w3.org/2000/svg";
 
+    const svgNs = "http://www.w3.org/2000/svg";
     const svg = document.createElementNS(svgNs, 'svg');
     svg.setAttribute('width', '100%');
-    svg.setAttribute('height', '100%');
 
-    const rowHeight = 80;
+    const rowHeight = 100;
     const radius = 30;
-    const projects = user.data.user[0].progresses;
+    const projects = user.data.transaction;
 
     svg.setAttribute('height', projects.length * rowHeight);
 
     projects.forEach((proj, i) => {
         const group = document.createElementNS(svgNs, 'g');
-        const y = i * rowHeight + radius + 10;
+        const centerX = radius + 10;
+        const centerY = i * rowHeight + radius + 10;
 
-        // الدائرة
-        const circle = document.createElementNS(svgNs, 'circle');
-        circle.setAttribute('cx', radius + 10);
-        circle.setAttribute('cy', y);
-        circle.setAttribute('r', radius);
-        circle.setAttribute('stroke', 'black');
-        circle.setAttribute('stroke-width', '2');
-        circle.setAttribute('fill', '#fefce8');
-        group.appendChild(circle);
+        const percentage = proj.amount;
+        const angle = (percentage / 100) * 360;
 
-        // نص داخل الدائرة
+        function polarToCartesian(cx, cy, r, angleDeg) {
+            const rad = (angleDeg - 90) * Math.PI / 180.0;
+            return {
+                x: cx + r * Math.cos(rad),
+                y: cy + r * Math.sin(rad)
+            };
+        }
+
+        // Red slice
+        const startRed = polarToCartesian(centerX, centerY, radius, 0);
+        const endRed = polarToCartesian(centerX, centerY, radius, angle);
+        const largeArcRed = angle > 180 ? 1 : 0;
+        const redPath = `M ${centerX} ${centerY}
+                         L ${startRed.x} ${startRed.y}
+                         A ${radius} ${radius} 0 ${largeArcRed} 1 ${endRed.x} ${endRed.y}
+                         Z`;
+
+        const redSlice = document.createElementNS(svgNs, 'path');
+        redSlice.setAttribute('d', redPath);
+        redSlice.setAttribute('class', 'red-slice');
+        group.appendChild(redSlice);
+
+        // Blue slice
+        const startBlue = endRed;
+        const endBlue = polarToCartesian(centerX, centerY, radius, 360);
+        const largeArcBlue = (360 - angle) > 180 ? 1 : 0;
+        const bluePath = `M ${centerX} ${centerY}
+                          L ${startBlue.x} ${startBlue.y}
+                          A ${radius} ${radius} 0 ${largeArcBlue} 1 ${startRed.x} ${startRed.y}
+                          Z`;
+
+        const blueSlice = document.createElementNS(svgNs, 'path');
+        blueSlice.setAttribute('d', bluePath);
+        blueSlice.setAttribute('class', 'blue-slice');
+        group.appendChild(blueSlice);
+
+        // Percentage Text
         const gradeText = document.createElementNS(svgNs, 'text');
-        gradeText.setAttribute('x', radius + 10);
-        gradeText.setAttribute('y', y + 5);
+        gradeText.setAttribute('x', centerX);
+        gradeText.setAttribute('y', centerY + 5);
         gradeText.setAttribute('text-anchor', 'middle');
         gradeText.setAttribute('font-size', '14');
         gradeText.setAttribute('font-weight', 'bold');
-        gradeText.setAttribute('fill', '#1f2937');
-        gradeText.textContent = `${proj.grade*10}%`;
+        gradeText.setAttribute('fill', '#fff');
+        gradeText.textContent = `${proj.amount}%`;
         group.appendChild(gradeText);
 
-        // اسم المشروع
+        // Label text
         const label = document.createElementNS(svgNs, 'text');
-        label.setAttribute('x', radius * 2 + 20);
-        label.setAttribute('y', y + 5);
-        label.setAttribute('font-size', '16');
-        label.setAttribute('fill', '#1f2937');
-        label.textContent = proj.object.name;
+        label.setAttribute('x', radius * 2 + 30);
+        label.setAttribute('y', centerY + 5);
+        label.setAttribute('class', 'type-label');
+        label.textContent = proj.type;
         group.appendChild(label);
 
         svg.appendChild(group);
