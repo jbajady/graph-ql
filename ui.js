@@ -49,50 +49,119 @@ export async function showApp() {
     const user = await data.json();
     if (!user) { return; }
 console.log(user);
-    const gradesproject=user.data.user[0].progresses.reduce((acc, curr) => acc + curr.grade, 0);
-console.log(gradesproject);
-
     document.body.innerHTML = '';
     const container = div('app-container');
-    const navbar = div('navbar');
-    const logoutBtn = button('btn', 'Logout');
-    logoutBtn.setAttribute('id', 'logout');
-    const logoutDiv = div('logout-container');
-    logoutDiv.append(logoutBtn);
-    navbar.append(div('logo-container').append(ce('svg', 'logo'), ce('span', 'logotext', 'GraphDB')), 
-    ce('h1',"title",`welcome ${user.data.user[0].login}`),logoutDiv);
     const content=div('content');
-    const infusser=div('infusser').append(ce('h1',"title","Infusser"),
+   content.append(displayInfoUser(user), displayGrades(user),displayProjectsXP(user));
+    container.append(showNavbar(user),content);
+    document.body.append(container);
+
+    
+}
+
+function displayProjectsXP(user) {
+   const div1=div('projectsxp');
+   const totalxp=user.data.user[0].transactions.reduce((total, transaction) => total + transaction.amount, 0);
+   const svgNs = "http://www.w3.org/2000/svg";
+   const svg = document.createElementNS(svgNs, 'svg');
+   svg.setAttribute('width', '100%');
+   svg.setAttribute('height', '100%');
+   const radius = 30;
+   const y = radius + 10;
+   const circle = document.createElementNS(svgNs, 'circle');
+   circle.setAttribute('cx', radius + 10);
+   circle.setAttribute('cy', y);
+   circle.setAttribute('r', radius);
+   circle.setAttribute('stroke', 'black');
+   circle.setAttribute('stroke-width', '2');
+   circle.setAttribute('fill', '#fefce8');
+   svg.appendChild(circle);
+   const gradeText = document.createElementNS(svgNs, 'text');
+   gradeText.setAttribute('x', radius + 10);
+   gradeText.setAttribute('y', y + radius + 10);
+   gradeText.setAttribute('text-anchor', 'middle');
+   gradeText.setAttribute('dominant-baseline', 'middle');
+   gradeText.setAttribute('font-size', '20px');
+   gradeText.setAttribute('fill', 'black');
+   gradeText.textContent = totalxp;
+   svg.appendChild(gradeText);
+   div1.append(svg);
+   return div1;
+
+}
+function displayGrades(user) {
+    const container = ce('div', 'grades-list-svg');
+   
+    const svgNs = "http://www.w3.org/2000/svg";
+
+    const svg = document.createElementNS(svgNs, 'svg');
+    svg.setAttribute('width', '100%');
+    svg.setAttribute('height', '100%');
+
+    const rowHeight = 80;
+    const radius = 30;
+    const projects = user.data.user[0].progresses;
+
+    svg.setAttribute('height', projects.length * rowHeight);
+
+    projects.forEach((proj, i) => {
+        const group = document.createElementNS(svgNs, 'g');
+        const y = i * rowHeight + radius + 10;
+
+        // الدائرة
+        const circle = document.createElementNS(svgNs, 'circle');
+        circle.setAttribute('cx', radius + 10);
+        circle.setAttribute('cy', y);
+        circle.setAttribute('r', radius);
+        circle.setAttribute('stroke', 'black');
+        circle.setAttribute('stroke-width', '2');
+        circle.setAttribute('fill', '#fefce8');
+        group.appendChild(circle);
+
+        // نص داخل الدائرة
+        const gradeText = document.createElementNS(svgNs, 'text');
+        gradeText.setAttribute('x', radius + 10);
+        gradeText.setAttribute('y', y + 5);
+        gradeText.setAttribute('text-anchor', 'middle');
+        gradeText.setAttribute('font-size', '14');
+        gradeText.setAttribute('font-weight', 'bold');
+        gradeText.setAttribute('fill', '#1f2937');
+        gradeText.textContent = `${proj.grade*10}%`;
+        group.appendChild(gradeText);
+
+        // اسم المشروع
+        const label = document.createElementNS(svgNs, 'text');
+        label.setAttribute('x', radius * 2 + 20);
+        label.setAttribute('y', y + 5);
+        label.setAttribute('font-size', '16');
+        label.setAttribute('fill', '#1f2937');
+        label.textContent = proj.object.name;
+        group.appendChild(label);
+
+        svg.appendChild(group);
+    });
+
+    container.appendChild(svg);
+    return container;
+}
+
+
+
+
+function displayInfoUser(user) {
+  return  div('infusser').append(ce('h1',"title","Infusser"),
     ce('h3',"title",`Login:  ${user.data.user[0].login}`),
     ce('h3',"title",`Campus:  ${user.data.user[0].campus}`),
     ce('h3',"title",`FirstName:  ${user.data.user[0].attrs.firstName}`),ce('h3',"title",`LastName:  ${user.data.user[0].attrs.lastName}`)
     ,ce('h3',"title",`Email:  ${user.data.user[0].attrs.email}`),ce('h3',"title",`Country:  ${user.data.user[0].attrs.country}`),
-    ce('h3',"title",`Gender:  ${user.data.user[0].attrs.gender}`));
-    const projectwork=div('projectwork').append(ce('h1',"title","ProjectWork"))
-    user.data.user[0].transactions.forEach(element => {
-      projectwork.append(ce('h3',"title",`Amount:  ${element.amount}`), ce('h3',"title",`Name:  ${element.object.name}`))
-    })
-    const circlegrades=div('circlegrades').append(ce('svg', 'circlegrades').append(ce('circle', 'circle').setAttribute('cx','15').setAttribute('cx','12'),ce('circle', 'circle').setAttribute('cx','24'),ce('circle', 'circle').setAttribute('cx','8')),ce('h3',"title",`Grades:  ${gradesproject}`));
-    content.append(infusser,projectwork);
-    container.append(navbar,content);
-    document.body.append(container);
-
-
-    logoutBtn.addEventListener('click', () => {
-        localStorage.removeItem('jwt');
-        showlogin(); 
-      });
-      
-
-
-
-    // logoutBtn.addEventListener('click', () => {
-    //     localStorage.removeItem('jwt');
-    //     showlogin();
-    // });
-
-    // container.append(navbar);
+    ce('h3',"title",`Gender:  ${user.data.user[0].attrs.gender}`))
+}
+function showNavbar(user) {
     
-
-   
+    const logoutBtn = button('btn', 'Logout');
+    logoutBtn.setAttribute('id', 'logout');
+    const logoutDiv = div('logout-container');
+    logoutDiv.append(logoutBtn);
+    return div('navbar').append(div('logo-container').append(ce('svg', 'logo'), ce('span', 'logotext', 'GraphDB')), 
+    ce('h1',"title",`welcome ${user.data.user[0].login}`),logoutDiv);
 }

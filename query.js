@@ -1,5 +1,13 @@
 export const queruser={
     "query": `query {
+           transaction(
+        where: {type: { _like: "skill%" }}
+       order_by: [{type: asc}, {createdAt: desc}]
+        distinct_on: type
+         ) {
+             type
+             amount
+    }
  user{
  campus
   login
@@ -33,3 +41,33 @@ export const query={
   }
   }`
 }
+// let response = await Fetche(`{
+//   user {
+//       login
+//       attrs
+//       auditRatio
+//       totalUp
+//       totalDown
+//       transactions (where:{type:{_eq:"xp"} ,event:{id:{_eq:41}}}) {
+//           amount
+//       }
+//   }
+// })
+// result (where :{object:{type:{_eq:"project"}} }){
+//        object{
+//           name
+//           type
+//        }
+//       grade
+//   }
+// })
+// const query =  {
+//   transaction(
+//   where: {type: { like: "skill%" }}
+//  order_by: [{type: asc}, {createdAt: desc}]
+//   distinct_on: type
+//    ) {
+//        type
+//        amount
+// }
+// }`)
