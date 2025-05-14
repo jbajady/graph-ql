@@ -1,114 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GraphDB Page</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        .navbar {
-            background-color: #1e2a44;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            padding: 0 1rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            height: 5rem;
-            box-sizing: border-box;
-            justify-content: space-between;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo {
-            width: 400px;
-            height: 400px;
-        }
-
-        .logotext {
-            font-size: 20px;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-        
-        .nav-right {
-            display: flex;
-            align-items: center;
-            margin-left: auto;
-        }
-        
-        .nav-button {
-            background-color: #13294b;
-            color: white;
-            border: 1px solid #0e1c34;
-            padding: 0.3rem 1rem;
-            border-radius: 4px;
-            font-weight: bold;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-        
-        .nav-button:hover {
-            background-color: #0e1c34;
-        }
-        
-        .content {
-            padding: 1rem;
-            background-color: #5176a7;
-            min-height: calc(100vh - 5rem);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-        
-        .content-logo {
-            max-width: 400px;
-            margin-bottom: 2rem;
-        }
-        
-        .content-text {
-            text-align: center;
-            max-width: 600px;
-        }
-
-        h1 {
-            margin-bottom: 1rem;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>XP Chart</title>
+  <style>
+    body {
+      background: #fff;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+    }
+    svg {
+      border: 1px solid #ccc;
+      background-color: #fff;
+    }
+  </style>
 </head>
 <body>
-    <div class="navbar">
-        <div class="logo-container">
-            <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 60">
-                <circle cx="15" cy="15" r="6" fill="#E95420" />
-                <circle cx="12" cy="28" r="5" fill="#E95420" />
-                <circle cx="24" cy="24" r="3" fill="#E95420" />
-                <circle cx="8" cy="36" r="4" fill="#E95420" />
-                <line x1="15" y1="15" x2="12" y2="28" stroke="#E95420" stroke-width="1" />
-                <line x1="15" y1="15" x2="24" y2="24" stroke="#E95420" stroke-width="1" />
-                <line x1="12" y1="28" x2="8" y2="36" stroke="#E95420" stroke-width="1" />
-                <line x1="12" y1="28" x2="24" y2="24" stroke="#E95420" stroke-width="1" />
-            </svg>
-            <span class="logotext">GraphDB</span>
-        </div>
-        <div class="nav-right">
-            <a href="#" class="nav-button">Logout</a>
-        </div>
-    </div>
+  <svg id="xpChart" width="600" height="400"></svg>
 
-    <div class="content">
-        
-    </div>
+  <script>
+    const svg = document.getElementById('xpChart');
+    const width = svg.getAttribute("width");
+    const height = svg.getAttribute("height");
+
+    // بيانات تجريبية (تاريخ، نقاط XP)
+    const data = [
+      { date: 0, xp: 0 },
+      { date: 1, xp: 5 },
+      { date: 2, xp: 10 },
+      { date: 3, xp: 20 },
+      { date: 4, xp: 30 },
+      { date: 5, xp: 40 },
+      { date: 6, xp: 42 },
+      { date: 7, xp: 45 },
+      { date: 8, xp: 55 },
+      { date: 9, xp: 65 },
+      { date: 10, xp: 80 },
+    ];
+
+    // مقاييس (scale)
+    const xOffset = 50;
+    const yOffset = 350;
+    const xScale = 50;
+    const yScale = 3;
+  let path = "";
+    data.forEach((point, i) => {
+      const x = xOffset + point.date * xScale;
+      const y = yOffset - point.xp * yScale + (Math.random() * 6 - 3);
+      path += i === 0 ? `M ${x} ${y}` : ` L ${x} ${y}`;
+    });
+
+    const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    pathElement.setAttribute("d", path);
+    pathElement.setAttribute("fill", "none");
+    pathElement.setAttribute("stroke", "black");
+    pathElement.setAttribute("stroke-width", "5");
+    pathElement.setAttribute("stroke-linecap", "round");
+    svg.appendChild(pathElement);
+    // // رسم المحاور
+    // const drawLine = (x1, y1, x2, y2, width = 2) => {
+    //   const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    //   line.setAttribute("x1", x1);
+    //   line.setAttribute("y1", y1);
+    //   line.setAttribute("x2", x2);
+    //   line.setAttribute("y2", y2);
+    //   line.setAttribute("stroke", "black");
+    //   line.setAttribute("stroke-width", width);
+    //   svg.appendChild(line);
+    // };
+
+    // drawLine(xOffset, 20, xOffset, yOffset); // y axis
+    // drawLine(xOffset, yOffset, 550, yOffset); // x axis
+
+    // إضافة تسميات
+    // const addLabel = (text, x, y, rotate = false) => {
+    //   const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    //   label.textContent = text;
+    //   label.setAttribute("x", x);
+    //   label.setAttribute("y", y);
+    //   label.setAttribute("font-size", "16");
+    //   label.setAttribute("font-family", "Comic Sans MS");
+    //   if (rotate) {
+    //     label.setAttribute("transform", `rotate(-30 ${x} ${y})`);
+    //   }
+    //   svg.appendChild(label);
+    // };
+
+    // addLabel("xp", 10, 30);
+    // addLabel("date", 520, 380);
+
+    // رسم المسار (الخط المنحني)
+  
+  </script>
 </body>
 </html>

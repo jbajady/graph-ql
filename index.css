@@ -380,3 +380,14 @@ svg {
   font-weight: bold;
   fill: #1f2937;
 }
+.audit-list-svg{
+  width: 50%;
+  background-color: #74787e;
+  font-family: 'Courier New', Courier, monospace;
+font-size: 20px;
+display: flex;
+flex-direction: column;
+align-items: center;
+border-radius: 15px;
+
+}

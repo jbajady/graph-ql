@@ -9,11 +9,24 @@ export const queruser={
              amount
     }
  user{
+
+    auditRatio
+    totalUp
+        totalUpBonus
+       
+ events(where:{event: {object:{type:{_eq: "module"}}}}) {
+  
+    level
+  xp{
+    amount
+  }
+  }
  campus
   login
   attrs
   transactions (where:{type:{_eq:"xp"},event:{id:{_eq:41}}}) {
     amount
+     createdAt
   object{
     name
   }
@@ -32,15 +45,16 @@ export const queruser={
 }`
 }   
 
-export const query={
-    "query": `transactions (where:{type:{_eq:"xp"},event:{id:{_eq:41}}}) {
-    amount
+// export const query={
+//     "query": `transactions (where:{type:{_eq:"xp"},event:{id:{_eq:41}}}) {
+//     amount
 
-  object{
-    name
-  }
-  }`
-}
+//   object{
+//     name
+//   }
+//   }`
+// }
+
 // let response = await Fetche(`{
 //   user {
 //       login

@@ -52,7 +52,7 @@ console.log(user);
     document.body.innerHTML = '';
     const container = div('app-container');
     const content=div('content');
-   content.append(displayInfoUser(user), displayGrades(user),displayLevelWithSVG(user));
+   content.append(displayInfoUser(user), displayGrades(user),displayLevelWithSVG(user),displayaudit(user));
     container.append(showNavbar(user),content);
     document.body.append(container);
 
@@ -60,7 +60,9 @@ console.log(user);
 }
 
 function displayLevelWithSVG(user) {
-  const level = user.data.level || 25;
+  const totalXp = Math.round ((user.data.user[0].transactions.reduce((total, transaction) => total + transaction.amount, 0)/1000).toFixed(2));
+  const level = user.data.user[0].events[0].level;
+
 
   const container = div("levelContainer");
   const svgNS = "http://www.w3.org/2000/svg";
@@ -72,8 +74,6 @@ function displayLevelWithSVG(user) {
   const centerX = 80;
   const centerY = 80;
   const radius = 60;
-
-  // خلفية الدائرة
   const circle = document.createElementNS(svgNS, "circle");
   circle.setAttribute("cx", centerX);
   circle.setAttribute("cy", centerY);
@@ -83,31 +83,14 @@ function displayLevelWithSVG(user) {
   circle.setAttribute("stroke-width", "2");
   svg.appendChild(circle);
 
-  // النقاط حول الدائرة
-  const dotCount = 40;
-  for (let i = 0; i < dotCount; i++) {
-    const angle = (2 * Math.PI * i) / dotCount;
-    const dotX = centerX + Math.cos(angle) * (radius + 10);
-    const dotY = centerY + Math.sin(angle) * (radius + 10);
-
-    const dot = document.createElementNS(svgNS, "circle");
-    dot.setAttribute("cx", dotX);
-    dot.setAttribute("cy", dotY);
-    dot.setAttribute("r", 2);
-    dot.setAttribute("fill", "#a855f7");
-    svg.appendChild(dot);
-  }
-
-  // نص "Level"
   const levelText = document.createElementNS(svgNS, "text");
   levelText.setAttribute("x", centerX);
   levelText.setAttribute("y", centerY - 10);
   levelText.setAttribute("text-anchor", "middle");
   levelText.setAttribute("class", "level-circle-text");
-  levelText.textContent = "Level";
+  levelText.textContent = "Level:";
   svg.appendChild(levelText);
 
-  // رقم المستوى
   const levelNumber = document.createElementNS(svgNS, "text");
   levelNumber.setAttribute("x", centerX);
   levelNumber.setAttribute("y", centerY + 20);
@@ -116,8 +99,27 @@ function displayLevelWithSVG(user) {
   levelNumber.textContent = level;
   svg.appendChild(levelNumber);
 
+  const xpText = document.createElementNS(svgNS, "text");
+  xpText.setAttribute("x", centerX);
+  xpText.setAttribute("y", centerY + 50);
+  xpText.setAttribute("text-anchor", "middle");
+  xpText.setAttribute("class", "xp-circle-text");
+  xpText.textContent = `Total XP: ${totalXp}`;
+  svg.appendChild(xpText);
   container.appendChild(svg);
   return container
+}
+function displayaudit(user) {
+    const container = ce('div', 'audit-list-svg').append(ce('h1',undefined,"audit :"));
+const div=ce('div',"",`auditRatio: ${Math.round(user.data.user[0].auditRatio*10)/10}`)
+const div1=ce('div',"",`totalUp: ${formatBytes(user.data.user[0].totalUp)}`)
+const div2=ce('div',"",`totalUpBonus: ${formatBytes(user.data.user[0].totalUpBonus)}`)
+const div3=ce('div',"",`totalDown: ${formatBytes(user.data.user[0].totalDown)}`)
+
+    
+return container.append(div,div1,div2,div3)
+    
+    
 }
 
 
@@ -221,6 +223,15 @@ function showNavbar(user) {
     logoutBtn.setAttribute('id', 'logout');
     const logoutDiv = div('logout-container');
     logoutDiv.append(logoutBtn);
-    return div('navbar').append(div('logo-container').append(ce('svg', 'logo'), ce('span', 'logotext', 'GraphDB')), 
+    return div('navbar').append(div('logo-container').append(ce('svg', 'logo'), ce('span', 'logotext', 'Graphql')), 
     ce('h1',"title",`welcome ${user.data.user[0].login}`),logoutDiv);
+}
+function formatBytes(bytes) {
+  if (bytes === 0) return "0 Bytes";
+
+  const units = ["Bytes", "KB", "MB", "GB", "TB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(1024));
+  const value = bytes / Math.pow(1024, i);
+
+  return `${value.toFixed(1)} ${units[i]}`;
 }
