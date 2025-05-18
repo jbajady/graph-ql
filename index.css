@@ -391,3 +391,9 @@ align-items: center;
 border-radius: 15px;
 
 }
+    #xpChart {
+      border: 1px solid #ccc;
+      background-color: #fff;
+      /* width:600px ;
+      height: 400px; */
+    }

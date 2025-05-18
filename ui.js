@@ -52,11 +52,60 @@ console.log(user);
     document.body.innerHTML = '';
     const container = div('app-container');
     const content=div('content');
-   content.append(displayInfoUser(user), displayGrades(user),displayLevelWithSVG(user),displayaudit(user));
+   content.append(displayInfoUser(user), displayGrades(user),
+   displayLevelWithSVG(user),displayaudit(user),Graphxp(user));
     container.append(showNavbar(user),content);
     document.body.append(container);
 
     
+}
+function Graphxp(user) {
+   const container = div("elContainer");
+  if (!container) {
+    console.error("Missing #levelContainer in DOM.");
+    return;
+  }
+
+  const svgNS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(svgNS, "svg");
+  svg.setAttribute("id", "xpChart");
+  svg.setAttribute("width", "1000");
+  svg.setAttribute("height", "400");
+
+  const xOffset = 50;
+  const yOffset = 350;
+  const xScale = 0.00001; // time scale adjustment
+  const yScale = 0.0025;  // XP scale adjustment
+
+  const transactions = user.data.user[0].transactions;
+  if (!transactions.length) {
+    console.warn("No transactions to plot.");
+    return;
+  }
+
+  // Normalize time (x-axis)
+  const timestamps = transactions.map(t => new Date(t.createdAt).getTime());
+  const minTime = Math.min(...timestamps);
+
+  let path = "";
+
+  transactions.forEach((point, i) => {
+    const time = new Date(point.createdAt).getTime();
+    const x = xOffset + (time - minTime) * xScale;
+    const y = yOffset - point.amount * yScale + (Math.random() * 6 - 3); // Add jitter for visual interest
+    path += i === 0 ? `M ${x} ${y}` : ` L ${x} ${y}`;
+  });
+
+  const pathElement = document.createElementNS(svgNS, "path");
+  pathElement.setAttribute("d", path);
+  pathElement.setAttribute("fill", "none");
+  pathElement.setAttribute("stroke", "#4caf50");
+  pathElement.setAttribute("stroke-width", "3");
+  pathElement.setAttribute("stroke-linecap", "round");
+
+  svg.appendChild(pathElement);
+//   container.innerHTML = ""; // Clear old chart
+  return container.appendChild(svg);
 }
 
 function displayLevelWithSVG(user) {
