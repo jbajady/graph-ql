@@ -1,4 +1,4 @@
-/* ريست للستايلات الافتراضية */
+/* Reset default styles */
 * {
   margin: 0;
   padding: 0;
@@ -6,398 +6,380 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background-color: #f3f4f6;
-  color: #1e293b;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
+  color: #1f2937;
   line-height: 1.6;
+  min-height: 100vh;
 }
 
-/* فورم ديال اللوقين */
+/* Login form styling */
 .login-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 1.5rem;
+  background: url('https://source.unsplash.com/random/1600x900/?abstract') no-repeat center/cover;
+  position: relative;
+}
+
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .login-form {
-  background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   width: 100%;
-  max-width: 400px;
-  animation: fadeIn 0.5s ease-out;
+  max-width: 450px;
+  animation: fadeIn 0.7s ease-out;
+  border: 1px solid #e5e7eb;
 }
 
 .login-form input {
   width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border: 2px solid #d1d5db;
+  border-radius: 10px;
   font-size: 1rem;
-  transition: border-color 0.3s ease;
+  background: #f9fafb;
+  transition: all 0.3s ease;
 }
 
 .login-form input:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+  background: #ffffff;
 }
 
 .login-form .btn {
   width: 100%;
-  padding: 0.75rem;
-  background-color: #3b82f6;
+  padding: 1rem;
+  background: linear-gradient(90deg, #6366f1, #a855f7);
   color: #ffffff;
   border: none;
-  border-radius: 0.5rem;
-  font-size: 1rem;
+  border-radius: 10px;
+  font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .login-form .btn:hover {
-  background-color: #2563eb;
+  background: linear-gradient(90deg, #4f46e5, #9333ea);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
 }
 
 .error {
-  color: #ef4444;
+  color: #f87171;
   text-align: center;
-  font-size: 0.875rem;
-  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  margin-top: 0.75rem;
+  background: #fef2f2;
+  padding: 0.5rem;
+  border-radius: 6px;
 }
 
-/* نافبار */
+/* Navbar styling */
 .navbar {
-  background-color: #ffffff;
-  padding: 1rem 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  background: linear-gradient(90deg, #4b5563, #1f2937);
+  padding: 1.5rem 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   position: sticky;
   top: 0;
   z-index: 10;
+  border-radius: 0 0 12px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .logo-container {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .logotext {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1e293b;
-}
-
-.navbar .title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #1e293b;
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #a855f7;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .logout-container .btn {
-  padding: 0.5rem 1rem;
-  background-color: #ef4444;
+  padding: 0.6rem 1.5rem;
+  background: #f87171;
   color: #ffffff;
   border: none;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .logout-container .btn:hover {
-  background-color: #dc2626;
+  background: #ef4444;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(248, 113, 113, 0.3);
 }
 
-/* الكونتينر ديال التطبيق */
-.app-container {
-  min-height: 100vh;
-  background-color: #f3f4f6;
-  padding: 2rem 0;
-}
-
-/* الكونتينت (عناصر فصف وحدة) */
-.content {
+/* Main container with grid layout */
+.container-content {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-  display: flex;
-  flex-direction: row;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-areas:
+    "sidebar header header header"
+    "sidebar content1 content2 content3"
+    "sidebar graph graph graph";
   gap: 1.5rem;
-  flex-wrap: wrap;
 }
 
-/* كارد ديال الإنفو */
-.infusser {
-  background-color: #ffffff;
-  padding: 1.5rem;
-  border-radius: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  animation: fadeIn 0.5s ease-out;
-  flex: 1;
-  min-width: 250px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* Sidebar (grades-list-svg) */
+.sidebar {
+  grid-area: sidebar;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  min-height: 400px;
   text-align: center;
-}
-
-.infusser .title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #1e293b;
-  margin-bottom: 1rem;
-}
-
-.infusser img {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  margin-bottom: 1rem;
-  background-color: #60a5fa;
-}
-
-.infusser h3 {
-  font-size: 1rem;
-  color: #4b5563;
-  margin-bottom: 0.5rem;
-}
-
-/* كارد ديال XP */
-.projectsxp {
-  background-color: #ffffff;
-  padding: 1.5rem;
-  border-radius: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  animation: fadeIn 0.5s ease-out;
-  flex: 1;
-  min-width: 250px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.projectsxp .title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #1e293b;
-  margin-bottom: 1rem;
-}
-
-.projectsxp svg {
-  width: 120px;
-  height: 120px;
-}
-
-.projectsxp circle {
-  fill: #e0e7ff;
-  stroke: #3b82f6;
-  stroke-width: 2;
-  transition: transform 0.3s ease;
-}
-
-.projectsxp circle:hover {
-  transform: scale(1.1);
-}
-
-.projectsxp text {
-  font-size: 1.5rem;
-  font-weight: 600;
-  fill: #1e293b;
-}
-
-/* كارد ديال الغراد مع أوفرفلو */
-.grades-list-svg {
-  background-color: #ffffff;
-  padding: 1.5rem;
-  border-radius: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  animation: fadeIn 0.5s ease-out;
-  flex: 2;
-  min-width: 400px;
-  max-height: 400px;
   overflow-y: auto;
+  max-height: 700px;
   scrollbar-width: thin;
-  scrollbar-color: #3b82f6 #e5e7eb;
+  scrollbar-color: #6366f1 #e0e7ff;
 }
 
-.grades-list-svg::-webkit-scrollbar {
-  width: 6px;
+.sidebar::-webkit-scrollbar {
+  width: 8px;
 }
 
-.grades-list-svg::-webkit-scrollbar-track {
-  background: #e5e7eb;
-  border-radius: 3px;
+.sidebar::-webkit-scrollbar-track {
+  background: #e0e7ff;
+  border-radius: 4px;
 }
 
-.grades-list-svg::-webkit-scrollbar-thumb {
-  background: #3b82f6;
-  border-radius: 3px;
+.sidebar::-webkit-scrollbar-thumb {
+  background: #6366f1;
+  border-radius: 4px;
 }
 
-.grades-list-svg .title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #1e293b;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.grades-list-svg svg {
+.sidebar svg {
   width: 100%;
 }
 
-.grades-list-svg circle {
-  fill: #e0e7ff;
-  stroke: #3b82f6;
-  stroke-width: 2;
-  transition: transform 0.3s ease;
+/* Header row (inf-user, audit, level-total-xp) */
+.header {
+  grid-area: header;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
 }
 
-.grades-list-svg circle:hover {
-  transform: scale(1.1);
+.inf-user, .audit, .level-total-xp {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  min-height: 150px;
+  text-align: center;
+  transition: all 0.3s ease;
 }
 
-.grades-list-svg text {
+.inf-user:hover, .audit:hover, .level-total-xp:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.inf-user h1, .audit h1, .level-total-xp h1 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: #4b5563;
+}
+
+.inf-user h3, .audit div {
   font-size: 1rem;
-  font-weight: 500;
-  fill: #1e293b;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
 }
 
-/* أنيميشن */
-@keyframes fadeIn {
-  from {
-      opacity: 0;
-      transform: translateY(10px);
-  }
-  to {
-      opacity: 1;
-      transform: translateY(0);
-  }
+/* Graph section (graph-xp) */
+.graph {
+  grid-area: graph;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  min-height: 300px;
+  text-align: center;
+  transition: all 0.3s ease;
 }
 
-/* ريسبونسيف ديزاين */
-@media (max-width: 1024px) {
-  .content {
-      flex-direction: column;
-  }
-
-  .infusser,
-  .projectsxp,
-  .grades-list-svg {
-      min-width: 100%;
-  }
+.graph:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
-@media (max-width: 768px) {
-  .login-form {
-      padding: 1.5rem;
-  }
-
-  .navbar {
-      flex-direction: column;
-      gap: 1rem;
-      padding: 1rem;
-  }
-
-  .grades-list-svg {
-      max-height: 350px;
-  }
-}
-/* ملف style.css */
-
-.grades-list-svg {
-    padding: 20px;
-    background: linear-gradient(to bottom right, #f9fafb, #e5e7eb);
-    border-radius: 12px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-    max-width: 600px;
-    margin: 20px auto;
-    overflow-x: auto;
+.graph h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: #4b5563;
 }
 
-.grades-list-svg svg {
-    width: 100%;
-    height: auto;
+/* SVG styles for grades */
+.red-slice {
+  fill: #f87171;
 }
 
-/* تعديل شكل النص داخل الدائرة */
-.grades-list-svg text {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    transition: all 0.3s ease-in-out;
+.blue-slice {
+  fill: #6366f1;
 }
 
-/* تأثيرات عند تمرير الماوس */
-.grades-list-svg path:hover {
-    opacity: 0.8;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-    cursor: pointer;
+.type-label {
+  fill: #4b5563;
+  font-size: 16px;
+  font-weight: 600;
 }
 
-/* لون القطع */
-.grades-list-svg .red-slice {
-    fill: #ef4444; /* أحمر ناعم */
-}
-
-.grades-list-svg .blue-slice {
-    fill: #3b82f6; /* أزرق حديث */
-}
-
-/* تسمية النوع بجانب الدائرة */
-.grades-list-svg .type-label {
-    fill: #374151;
-    font-size: 16px;
-    font-weight: 600;
-}
-.level-svg-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 50px;
-  background-color: #f5efff;
-}
-
-svg {
-  overflow: visible;
-}
-
+/* SVG styles for level */
 .level-circle-text {
   font-size: 14px;
-  fill: #555;
+  fill: #4b5563;
 }
 
 .level-number-text {
   font-size: 28px;
   font-weight: bold;
-  fill: #1f2937;
+  fill: #6366f1;
 }
-.audit-list-svg{
-  width: 50%;
-  background-color: #74787e;
-  font-family: 'Courier New', Courier, monospace;
-font-size: 20px;
-display: flex;
-flex-direction: column;
-align-items: center;
-border-radius: 15px;
 
+.xp-circle-text {
+  font-size: 14px;
+  fill: #4b5563;
 }
-    #xpChart {
-      border: 1px solid #ccc;
-      background-color: #fff;
-      /* width:600px ;
-      height: 400px; */
-    }
-    .elContainer{
-      border:1px solid #000; 
-      margin-top:20px
-    }
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .container-content {
+    grid-template-areas:
+      "header header header"
+      "sidebar sidebar sidebar"
+      "content1 content2 content3"
+      "graph graph graph";
+  }
+
+  .sidebar {
+    min-height: 200px;
+    max-height: 350px;
+  }
+
+  .header {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "inf-user"
+      "audit"
+      "level-total-xp";
+  }
+
+  .navbar {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container-content {
+    grid-template-areas:
+      "header"
+      "sidebar"
+      "content1"
+      "content2"
+      "content3"
+      "graph";
+  }
+
+  .header {
+    grid-template-columns: 1fr;
+    /* grid-template-rows: 5fr; */
+  }
+
+  .navbar {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 0;
+  }
+
+  .inf-user, .audit, .level-total-xp, .sidebar, .graph {
+    min-height: 120px;
+    padding: 1rem;
+  }
+
+  .login-form {
+    padding: 1.5rem;
+    max-width: 350px;
+  }
+
+  .login-form input, .login-form .btn {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar h1 {
+    font-size: 1.5rem;
+  }
+
+  .logotext {
+    font-size: 1.4rem;
+  }
+
+  .logout-container .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .inf-user h1, .audit h1, .level-total-xp h1, .graph h2 {
+    font-size: 1.2rem;
+  }
+
+  .inf-user h3, .audit div {
+    font-size: 0.9rem;
+  }
+}
