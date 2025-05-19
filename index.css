@@ -397,3 +397,7 @@ border-radius: 15px;
       /* width:600px ;
       height: 400px; */
     }
+    .elContainer{
+      border:1px solid #000; 
+      margin-top:20px
+    }

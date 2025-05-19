@@ -60,52 +60,87 @@ console.log(user);
     
 }
 function Graphxp(user) {
-   const container = div("elContainer");
-  if (!container) {
-    console.error("Missing #levelContainer in DOM.");
-    return;
-  }
+  const container = div("elContainer");
 
   const svgNS = "http://www.w3.org/2000/svg";
   const svg = document.createElementNS(svgNS, "svg");
   svg.setAttribute("id", "xpChart");
-  svg.setAttribute("width", "1000");
-  svg.setAttribute("height", "400");
+  svg.setAttribute("width", "800");
+  svg.setAttribute("height", "300");
+  svg.setAttribute("viewBox", "0 0 800 300");
 
-  const xOffset = 50;
-  const yOffset = 350;
-  const xScale = 0.00001; // time scale adjustment
-  const yScale = 0.0025;  // XP scale adjustment
+  const padding = 40;
+  const width = 800 - 2 * padding;
+  const height = 300 - 2 * padding;
 
   const transactions = user.data.user[0].transactions;
   if (!transactions.length) {
     console.warn("No transactions to plot.");
-    return;
+    return container;
   }
 
-  // Normalize time (x-axis)
-  const timestamps = transactions.map(t => new Date(t.createdAt).getTime());
-  const minTime = Math.min(...timestamps);
+  // نرتب المعاملات حسب التاريخ
+  transactions.sort((a, b) => 
+    new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+  );
+
+  // التواريخ في timestamp
+  const times = transactions.map(t => new Date(t.createdAt).getTime());
+  const minTime = Math.min(...times);
+  const maxTime = Math.max(...times);
+
+  // نحسب EXP تراكمي
+  let cumulativeExp = 0;
+  const cumulativeAmounts = transactions.map(t => {
+    cumulativeExp += t.amount;
+    return cumulativeExp;
+  });
+
+  const maxExp = Math.max(...cumulativeAmounts);
 
   let path = "";
 
+  // نخزن إحداثيات النقاط لنضيف الدوائر لاحقًا
+  const points = [];
+  
   transactions.forEach((point, i) => {
     const time = new Date(point.createdAt).getTime();
-    const x = xOffset + (time - minTime) * xScale;
-    const y = yOffset - point.amount * yScale + (Math.random() * 6 - 3); // Add jitter for visual interest
+    // X proportional to time range
+    const x = padding + ((time - minTime) / (maxTime - minTime)) * width;
+    // Y inversely proportional to cumulative EXP (y=0 top)
+    const y = padding + height - (cumulativeAmounts[i] / maxExp) * height;
+
     path += i === 0 ? `M ${x} ${y}` : ` L ${x} ${y}`;
+    
+    // نخزن الإحداثيات
+    points.push({ x, y });
   });
 
   const pathElement = document.createElementNS(svgNS, "path");
   pathElement.setAttribute("d", path);
-  pathElement.setAttribute("fill", "none");
-  pathElement.setAttribute("stroke", "#4caf50");
-  pathElement.setAttribute("stroke-width", "3");
-  pathElement.setAttribute("stroke-linecap", "round");
+  pathElement.setAttribute("fill", "none"); // لا تملأ المنطقة تحت الخط
+  pathElement.setAttribute("stroke", "#000"); // لون أسود للخط كما في الصورة
+  pathElement.setAttribute("stroke-width", "3"); // سمك الخط
+  pathElement.setAttribute("stroke-linejoin", "round"); // جعل الانحناءات أكثر سلاسة
+  pathElement.setAttribute("stroke-linecap", "round"); // جعل نهايات الخط مستديرة
 
   svg.appendChild(pathElement);
-//   container.innerHTML = ""; // Clear old chart
-  return container.appendChild(svg);
+  
+  // نضيف الدوائر (circle) عند كل نقطة بيانات
+  points.forEach((point) => {
+    const circle = document.createElementNS(svgNS, "circle");
+    circle.setAttribute("cx", point.x);
+    circle.setAttribute("cy", point.y);
+    circle.setAttribute("r", "5"); // نصف قطر الدائرة
+    circle.setAttribute("fill", "#000"); // لون الدائرة نفس لون الخط
+    circle.setAttribute("stroke", "#fff"); // إطار أبيض رفيع للدائرة
+    circle.setAttribute("stroke-width", "1.5");
+    svg.appendChild(circle);
+  });
+
+  container.appendChild(svg);
+
+  return container;
 }
 
 function displayLevelWithSVG(user) {
