@@ -14,7 +14,7 @@ export const ce = (tagName, classname, textContent = "") => {
         return this;
     }
     element.__proto__.setText = function (text) {
-        this.textContent = text; // ✅ صح
+        this.textContent = text; 
         return this;
     };
     

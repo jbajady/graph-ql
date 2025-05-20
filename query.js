@@ -13,6 +13,7 @@ export const queruser={
     auditRatio
     totalUp
         totalUpBonus
+        totalDown
        
  events(where:{event: {object:{type:{_eq: "module"}}}}) {
   

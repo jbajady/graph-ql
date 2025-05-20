@@ -11,6 +11,9 @@ body {
   color: #1f2937;
   line-height: 1.6;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 
 /* Login form styling */
@@ -148,20 +151,27 @@ body {
 
 /* Main container with grid layout */
 .container-content {
-  max-width: 1200px;
+  /* width: 90%; */
   margin: 2rem auto;
   padding: 0 1.5rem;
-  display: grid;
+  /* display: grid;
   grid-template-areas:
+  "sidebar content1 content2 content3"
     "sidebar header header header"
-    "sidebar content1 content2 content3"
-    "sidebar graph graph graph";
+    "sidebar graph graph graph"; */
+    gap: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-items: stretch;
+    
   gap: 1.5rem;
 }
 
 /* Sidebar (grades-list-svg) */
 .sidebar {
   grid-area: sidebar;
+  min-width: 260px;
   background: #ffffff;
   padding: 2rem;
   border-radius: 12px;
@@ -200,7 +210,9 @@ body {
   gap: 1.5rem;
 }
 
-.inf-user, .audit, .level-total-xp {
+.inf-user,
+.audit,
+.level-total-xp {
   background: #ffffff;
   padding: 2rem;
   border-radius: 12px;
@@ -210,18 +222,23 @@ body {
   transition: all 0.3s ease;
 }
 
-.inf-user:hover, .audit:hover, .level-total-xp:hover {
+.inf-user:hover,
+.audit:hover,
+.level-total-xp:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
-.inf-user h1, .audit h1, .level-total-xp h1 {
+.inf-user h1,
+.audit h1,
+.level-total-xp h1 {
   font-size: 1.4rem;
   margin-bottom: 1rem;
   color: #4b5563;
 }
 
-.inf-user h3, .audit div {
+.inf-user h3,
+.audit div {
   font-size: 1rem;
   color: #6b7280;
   margin-bottom: 0.75rem;
@@ -288,6 +305,7 @@ body {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -345,7 +363,11 @@ body {
     border-radius: 0;
   }
 
-  .inf-user, .audit, .level-total-xp, .sidebar, .graph {
+  .inf-user,
+  .audit,
+  .level-total-xp,
+  .sidebar,
+  .graph {
     min-height: 120px;
     padding: 1rem;
   }
@@ -355,7 +377,8 @@ body {
     max-width: 350px;
   }
 
-  .login-form input, .login-form .btn {
+  .login-form input,
+  .login-form .btn {
     padding: 0.75rem;
     font-size: 0.95rem;
   }
@@ -375,11 +398,15 @@ body {
     font-size: 0.9rem;
   }
 
-  .inf-user h1, .audit h1, .level-total-xp h1, .graph h2 {
+  .inf-user h1,
+  .audit h1,
+  .level-total-xp h1,
+  .graph h2 {
     font-size: 1.2rem;
   }
 
-  .inf-user h3, .audit div {
+  .inf-user h3,
+  .audit div {
     font-size: 0.9rem;
   }
 }
