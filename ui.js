@@ -104,10 +104,6 @@ function Graphxp(user) {
             new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
         );
 
-        const times = transactions.map(t => new Date(t.createdAt).getTime());
-        const minTime = Math.min(...times);
-        const maxTime = Math.max(...times);
-
         let cumulativeExp = 0;
         const cumulativeAmounts = transactions.map(t => {
             cumulativeExp += t.amount;
@@ -118,12 +114,14 @@ function Graphxp(user) {
 
         let path = "";
         const points = [];
-
+        const spacing = width / (transactions.length - 1)
+        if (transactions.length === 1) {
+            spacing = 0;
+        }
+        const r = spacing !== 0 ? spacing : 1
         transactions.forEach((point, i) => {
-            const time = new Date(point.createdAt).getTime();
-            const x = padding + ((time - minTime) / (maxTime - minTime)) * width;
+            const x = padding + spacing * i;
             const y = padding + height - (cumulativeAmounts[i] / maxExp) * height;
-
             path += i === 0 ? `M ${x} ${y}` : ` L ${x} ${y}`;
             points.push({ x, y });
         });
@@ -132,22 +130,43 @@ function Graphxp(user) {
         pathElement.setAttribute("d", path);
         pathElement.setAttribute("fill", "none");
         pathElement.setAttribute("stroke", "#1e40af");
-        pathElement.setAttribute("stroke-width", "3");
+        pathElement.setAttribute("stroke-width", "1");
         pathElement.setAttribute("stroke-linejoin", "round");
         pathElement.setAttribute("stroke-linecap", "round");
 
         svg.appendChild(pathElement);
 
-        points.forEach((point) => {
+        points.forEach((point, i) => {
             const circle = document.createElementNS(svgNS, "circle");
             circle.setAttribute("cx", point.x);
             circle.setAttribute("cy", point.y);
-            circle.setAttribute("r", "5");
+            circle.setAttribute("r", `${r/4}`);
             circle.setAttribute("fill", "#1e40af");
             circle.setAttribute("stroke", "#ffffff");
             circle.setAttribute("stroke-width", "1.5");
+
+circle.addEventListener("mouseleave",()=>{
+      const oldText = svg.querySelector(".xp-label");
+                if (oldText) oldText.remove();
+})
+
+            circle.addEventListener("mouseenter", () => {
+                const text = document.createElementNS(svgNS, "text");
+                text.setAttribute("x", point.x);
+                text.setAttribute("y", point.y - 10); 
+                text.setAttribute("text-anchor", "middle");
+                text.setAttribute("fill", "#1e40af");
+                text.setAttribute("font-size", "14");
+                text.classList.add("xp-label");
+                text.textContent = `xp: ${formatBytes(cumulativeAmounts[i])} XP
+                `;
+
+                svg.appendChild(text);
+            });
+
             svg.appendChild(circle);
         });
+
     }
 
     container.appendChild(svg);

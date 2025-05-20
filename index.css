@@ -298,7 +298,12 @@ body {
   font-size: 14px;
   fill: #4b5563;
 }
-
+.graph-xp text.xp-label {
+  fill: #1e40af;
+  font-weight: bold;
+  font-size: 14px;
+  pointer-events: none;
+}
 /* Animation */
 @keyframes fadeIn {
   from {
