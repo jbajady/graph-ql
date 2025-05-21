@@ -52,11 +52,14 @@ export async function showApp() {
     const data = await fetchUser(queruser);
     if (!data.ok) { return; }
     const user = await data.json();
+    if (user.errors) {
+        showlogin()
+        return
+    }
     if (!user) { return; }
     console.log(user);
 
     document.body.innerHTML = '';
-    const mainContainer = div('container');
 
 
     document.body.append(writeNavbar(user));
@@ -71,6 +74,11 @@ export async function showApp() {
     );
 
     document.body.append(container);
+    document.querySelector("#logout").addEventListener("click",(e)=>{
+        e.preventDefault()
+        localStorage.removeItem('jwt');
+        showlogin()
+    })
 }
 
 function Graphxp(user) {
