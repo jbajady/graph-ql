@@ -270,7 +270,8 @@ function displayGrades(user) {
             const centerY = i * rowHeight + radius + 30;
 
             const percentage = proj.amount;
-            const angle = (percentage / 100) * 360;
+            const angle = percentage === 100 ? 359.99 : (percentage / 100) * 360;
+
 
             function polarToCartesian(cx, cy, r, angleDeg) {
                 const rad = (angleDeg - 90) * Math.PI / 180.0;
@@ -294,7 +295,7 @@ function displayGrades(user) {
             group.appendChild(redSlice);
 
             const startBlue = endRed;
-            const endBlue = polarToCartesian(centerX, centerY, radius, 360);
+            // const endBlue = polarToCartesian(centerX, centerY, radius, 360);
             const largeArcBlue = (360 - angle) > 180 ? 1 : 0;
             const bluePath = `M ${centerX} ${centerY}
                               L ${startBlue.x} ${startBlue.y}
