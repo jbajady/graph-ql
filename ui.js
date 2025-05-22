@@ -182,11 +182,12 @@ circle.addEventListener("mouseleave",()=>{
 }
 
 function displayLevelWithSVG(user) {
-    let totalXp = Math.round((user.data.user[0].transactions.reduce((total, transaction) => total + transaction.amount, 0) / 1000).toFixed(2));
+    let totalXp =formatBytes(user.data.user[0].transactions.reduce((total, transaction) => total + transaction.amount, 0));
+
     let level = user.data.user[0].events[0].level;
 
     if (!level) level = 0
-    if (isNaN(totalXp)) totalXp = 0
+    if (!(totalXp)) totalXp = 0
 
 
     const container = div("level-total-xp");
@@ -231,7 +232,7 @@ function displayLevelWithSVG(user) {
     xpText.setAttribute("y", centerY + 50);
     xpText.setAttribute("text-anchor", "middle");
     xpText.setAttribute("class", "xp-circle-text");
-    xpText.textContent = `Total XP: ${totalXp}kB`;
+    xpText.textContent = `Total XP: ${totalXp}`;
     svg.appendChild(xpText);
     container.appendChild(svg);
     return container;
@@ -372,13 +373,13 @@ function formatBytes(bytes) {
         return 0
     }
     if (bytes >= 1000000000) {
-        return (bytes / 1000000000).toFixed(2) + " GB";
+        return Math.round((bytes / 1000000000).toFixed(2) )+ " GB";
     } else if (bytes >= 1000000) {
-        return (bytes / 1000000).toFixed(2) + " MB";
+        return Math.round((bytes / 1000000).toFixed(2)) + " MB";
     } else if (bytes >= 1000) {
-        return (bytes / 1000).toFixed(2) + " KB";
+        return Math.round((bytes / 1000).toFixed(2)) + " KB";
     } else {
 
-        return bytes.toFixed(1) + " B";
+        return Math.round(bytes.toFixed(1) )+ " B";
     }
 }
