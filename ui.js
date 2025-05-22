@@ -231,7 +231,7 @@ function displayLevelWithSVG(user) {
     xpText.setAttribute("y", centerY + 50);
     xpText.setAttribute("text-anchor", "middle");
     xpText.setAttribute("class", "xp-circle-text");
-    xpText.textContent = `Total XP: ${totalXp}`;
+    xpText.textContent = `Total XP: ${totalXp}kB`;
     svg.appendChild(xpText);
     container.appendChild(svg);
     return container;
